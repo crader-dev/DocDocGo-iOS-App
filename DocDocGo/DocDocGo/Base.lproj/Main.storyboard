@@ -69,17 +69,17 @@
                     <connections>
                         <outlet property="speechRequestBtn" destination="IjN-0J-kQK" id="2j7-LS-8Xe"/>
                         <outlet property="textRequestBtn" destination="yKD-kE-p0O" id="yCq-71-Rlq"/>
-                        <segue destination="uv5-Rm-N80" kind="show" identifier="TextMethodSegue" id="7Ru-Yp-m78"/>
+                        <segue destination="uv5-Rm-N80" kind="show" identifier="TextRequestSegue" id="7Ru-Yp-m78"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7dn-Fc-g9z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1968.8" y="133.5832083958021"/>
         </scene>
-        <!--View Controller-->
+        <!--Text Req View Controller-->
         <scene sceneID="NM4-sI-j9f">
             <objects>
-                <viewController id="uv5-Rm-N80" sceneMemberID="viewController">
+                <viewController id="uv5-Rm-N80" customClass="TextReqViewController" customModule="DocDocGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GXF-he-koG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
