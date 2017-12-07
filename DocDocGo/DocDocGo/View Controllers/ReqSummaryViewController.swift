@@ -17,6 +17,9 @@ class ReqSummaryViewController: UIViewController {
     @IBOutlet var okBtn: UIButton!
     @IBOutlet var cancelBtn: UIButton!
     
+    var sliderValPassed = Int()
+    var descriptionPassed = String()
+    var addressPassed = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,8 +38,30 @@ class ReqSummaryViewController: UIViewController {
         descriptionTextView.layer.cornerRadius = 5
         descriptionTextView.layer.borderWidth = 0.5
         descriptionTextView.layer.borderColor = UIColor.gray.cgColor
+        
+        addressLbl.text = addressPassed
+        descriptionTextView.text = descriptionPassed
     }
 
+    @IBAction func tappedOKBtn(_ sender: UIButton) {
+        self.showAlertMessage(messageHeader: "Request Sent!",
+                              messageBody: "Please standby while your request is approved and accepted.")
+    }
+    
+    /*
+     -----------------------------
+     MARK: - Display Alert Message
+     -----------------------------
+     */
+    func showAlertMessage(messageHeader header: String, messageBody body: String) {
+        let alertController = UIAlertController(title: header, message: body, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

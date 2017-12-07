@@ -10,14 +10,26 @@ import UIKit
 
 class TextReqViewController: UIViewController {
 
+    @IBOutlet var painLbl: UILabel!
     @IBOutlet var painSlider: UISlider!
     @IBOutlet var descriptionTextView: UITextView!
     @IBOutlet var submitReqBtn: UIButton!
-    
+    @IBOutlet var addressTextField: UITextField!
+
+    var sliderValToPass = Int()
+    var descriptionToPass = String()
+    var addressToPass = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // FOR KEYBOARD PUSHING VIEW UP
+        NotificationCenter.default.addObserver(self, selector: #selector(TextReqViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(TextReqViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        // SLIDER STARTS IN THE MIDDLE (5)
+        painSlider.value = 5.0;
+        
         // DRAW BUTTON BORDERS
         submitReqBtn.backgroundColor = UIColor.clear
         submitReqBtn.layer.cornerRadius = 10
@@ -30,8 +42,18 @@ class TextReqViewController: UIViewController {
     }
 
     @IBAction func tappedSubmitReqBtn(_ sender: UIButton) {
+        addressToPass = addressTextField.text!
+        descriptionToPass = descriptionTextView.text
         performSegue(withIdentifier: "SummarySegue", sender: self)
     }
+    
+    
+    @IBAction func sliderChanged(_ sender: UISlider) {
+        sliderValToPass = Int(sender.value)
+        painLbl.text = String(sliderValToPass)
+    }
+    
+    
     
     
     override func didReceiveMemoryWarning() {
@@ -39,7 +61,53 @@ class TextReqViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y >= 0{
+                self.view.frame.origin.y -= keyboardSize.height+50
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y <= 0{
+                self.view.frame.origin.y += keyboardSize.height-50
+            }
+        }
+    }
+    
+    
+    /*
+     *  removes keyboard when background is touched
+     */
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
+        if let touch = touches.first {
+            if descriptionTextView.isFirstResponder && (touch.view != descriptionTextView) {
+                descriptionTextView.resignFirstResponder()
+            }
+            
+            if addressTextField.isFirstResponder && (touch.view != addressTextField) {
+                addressTextField.resignFirstResponder()
+            }
+        }
+        super.touchesBegan(touches, with:event)
+    }
+    
+    
+    /*
+     -----------------------------
+     MARK: - Display Alert Message
+     -----------------------------
+     */
+    func showAlertMessage(messageHeader header: String, messageBody body: String) {
+        let alertController = UIAlertController(title: header, message: body, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
     /*
     // MARK: - Navigation
 
@@ -60,12 +128,16 @@ class TextReqViewController: UIViewController {
         if segue.identifier == "SummarySegue" {
             
             // Obtain the object reference of the destination (downstream) view controller
-            let _: ReqSummaryViewController = segue.destination as! ReqSummaryViewController
+            let reqSummaryViewController: ReqSummaryViewController = segue.destination as! ReqSummaryViewController
             
             // Pass the following data to downstream view controller VTPlaceOnMapViewController
-            //            textReqViewController.mapTypePassed = mapTypeToPass
-            //            textReqViewController.selectedBuildingNamePassed = selectedBuildingNamePassed
+            reqSummaryViewController.sliderValPassed = sliderValToPass
+            reqSummaryViewController.descriptionPassed = descriptionToPass
+            reqSummaryViewController.addressPassed = addressToPass
+
         }
     }
+    
+    
 
 }
