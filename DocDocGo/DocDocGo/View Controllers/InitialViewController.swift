@@ -17,15 +17,8 @@ class InitialViewController: UIViewController {
         super.viewDidLoad()
 
         // DRAW BUTTON BORDERS
-        textReqBtn.backgroundColor = UIColor.clear
         textReqBtn.layer.cornerRadius = 10
-        textReqBtn.layer.borderWidth = 2
-        textReqBtn.layer.borderColor = UIColor.gray.cgColor
-        
-        speechReqBtn.backgroundColor = UIColor.clear
         speechReqBtn.layer.cornerRadius = 10
-        speechReqBtn.layer.borderWidth = 2
-        speechReqBtn.layer.borderColor = UIColor.gray.cgColor
     }
 
     @IBAction func tappedTextReqBtn(_ sender: UIButton) {

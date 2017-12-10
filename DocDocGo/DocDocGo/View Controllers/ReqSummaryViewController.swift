@@ -13,34 +13,32 @@ class ReqSummaryViewController: UIViewController {
     @IBOutlet var waitTimeLbl: UILabel!
     @IBOutlet var nameLbl: UILabel!
     @IBOutlet var addressLbl: UILabel!
+    @IBOutlet var painSeverityLbl: UILabel!
     @IBOutlet var descriptionTextView: UITextView!
     @IBOutlet var okBtn: UIButton!
     @IBOutlet var cancelBtn: UIButton!
     
     var sliderValPassed = Int()
     var descriptionPassed = String()
+    var namePassed = String()
     var addressPassed = String()
+    var painLevelPassed = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // DRAW BUTTON BORDERS
-        okBtn.backgroundColor = UIColor.clear
         okBtn.layer.cornerRadius = 10
-        okBtn.layer.borderWidth = 2
-        okBtn.layer.borderColor = UIColor.blue.cgColor
-        
-        cancelBtn.backgroundColor = UIColor.clear
         cancelBtn.layer.cornerRadius = 10
-        cancelBtn.layer.borderWidth = 2
-        cancelBtn.layer.borderColor = UIColor.red.cgColor
+        descriptionTextView.layer.cornerRadius = 10
         
-        descriptionTextView.layer.cornerRadius = 5
-        descriptionTextView.layer.borderWidth = 0.5
-        descriptionTextView.layer.borderColor = UIColor.gray.cgColor
-        
+        nameLbl.text = namePassed
         addressLbl.text = addressPassed
+        painSeverityLbl.text = painLevelPassed
         descriptionTextView.text = descriptionPassed
+        
+        
+        print(painLevelPassed)
     }
 
     @IBAction func tappedOKBtn(_ sender: UIButton) {
@@ -58,9 +56,6 @@ class ReqSummaryViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
     }
-    
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

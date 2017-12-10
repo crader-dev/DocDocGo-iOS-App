@@ -10,89 +10,61 @@ import UIKit
 
 class TextReqViewController: UIViewController {
 
+    @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var painLbl: UILabel!
     @IBOutlet var painSlider: UISlider!
     @IBOutlet var descriptionTextView: UITextView!
     @IBOutlet var submitReqBtn: UIButton!
+    @IBOutlet var nameTextField: UITextField!
     @IBOutlet var addressTextField: UITextField!
-
-    var sliderValToPass = Int()
-    var descriptionToPass = String()
+    
     var addressToPass = String()
+    var nameToPass = String()
+    var painLevelToPass = String()
+    var descriptionToPass = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // FOR KEYBOARD PUSHING VIEW UP
-        NotificationCenter.default.addObserver(self, selector: #selector(TextReqViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(TextReqViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         // SLIDER STARTS IN THE MIDDLE (5)
         painSlider.value = 5.0;
         
         // DRAW BUTTON BORDERS
-        submitReqBtn.backgroundColor = UIColor.clear
         submitReqBtn.layer.cornerRadius = 10
-        submitReqBtn.layer.borderWidth = 2
-        submitReqBtn.layer.borderColor = UIColor.gray.cgColor
-        
         descriptionTextView.layer.cornerRadius = 5
-        descriptionTextView.layer.borderWidth = 0.5
-        descriptionTextView.layer.borderColor = UIColor.gray.cgColor
     }
 
     @IBAction func tappedSubmitReqBtn(_ sender: UIButton) {
+//        if ( nameTextField.text == "" ) {
+//            self.showAlertMessage(messageHeader: "No Name Specified!",
+//                                  messageBody: "Please enter your name!")
+//        }
+//
+//        if ( addressTextField.text == "" ) {
+//            self.showAlertMessage(messageHeader: "No Address Specified!",
+//                                  messageBody: "Please enter your current address!")
+//        }
+//
+//        if ( descriptionTextView.text == "" ) {
+//            self.showAlertMessage(messageHeader: "No Description Provided!",
+//                                  messageBody: "Please enter a short description of your emergency!")
+//        }
+//
+        nameToPass = nameTextField.text!
         addressToPass = addressTextField.text!
         descriptionToPass = descriptionTextView.text
+        painLevelToPass = painLbl.text!
         performSegue(withIdentifier: "SummarySegue", sender: self)
     }
     
     
     @IBAction func sliderChanged(_ sender: UISlider) {
-        sliderValToPass = Int(sender.value)
-        painLbl.text = String(sliderValToPass)
+        painLbl.text = String(Int(sender.value))
     }
-    
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    @objc func keyboardWillShow(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y >= 0{
-                self.view.frame.origin.y -= keyboardSize.height+50
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y <= 0{
-                self.view.frame.origin.y += keyboardSize.height-50
-            }
-        }
-    }
-    
-    
-    /*
-     *  removes keyboard when background is touched
-     */
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-        if let touch = touches.first {
-            if descriptionTextView.isFirstResponder && (touch.view != descriptionTextView) {
-                descriptionTextView.resignFirstResponder()
-            }
-            
-            if addressTextField.isFirstResponder && (touch.view != addressTextField) {
-                addressTextField.resignFirstResponder()
-            }
-        }
-        super.touchesBegan(touches, with:event)
     }
     
     
@@ -126,18 +98,13 @@ class TextReqViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
         
         if segue.identifier == "SummarySegue" {
-            
-            // Obtain the object reference of the destination (downstream) view controller
             let reqSummaryViewController: ReqSummaryViewController = segue.destination as! ReqSummaryViewController
             
-            // Pass the following data to downstream view controller VTPlaceOnMapViewController
-            reqSummaryViewController.sliderValPassed = sliderValToPass
+            // Pass the following data to downstream view controller
             reqSummaryViewController.descriptionPassed = descriptionToPass
             reqSummaryViewController.addressPassed = addressToPass
-
+            reqSummaryViewController.namePassed = nameToPass
+            reqSummaryViewController.painLevelPassed = painLevelToPass
         }
     }
-    
-    
-
 }
