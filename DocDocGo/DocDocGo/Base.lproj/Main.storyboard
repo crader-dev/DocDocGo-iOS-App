@@ -478,12 +478,199 @@
                         <outlet property="okBtn" destination="FRz-nB-TkF" id="GH4-z3-Rew"/>
                         <outlet property="painSeverityLbl" destination="GtT-GT-scL" id="BfN-MZ-8Fx"/>
                         <outlet property="waitTimeLbl" destination="3pN-vp-C6E" id="4kd-0T-uGa"/>
+                        <segue destination="OEx-Tl-LcH" kind="show" identifier="PendingApprovalSegue" id="Qxf-xx-ycC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1qL-gx-Twx" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Ehk-MW-AhC" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2218.840579710145" y="30.978260869565219"/>
+        </scene>
+        <!--Pending Approval-->
+        <scene sceneID="wE9-lU-3j7">
+            <objects>
+                <viewController id="OEx-Tl-LcH" customClass="PendingApprovalViewController" customModule="DocDocGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="a42-lx-ONp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please wait while your request is approved. You will be automatically redirected." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MW6-Ff-lau">
+                                <rect key="frame" x="20" y="85" width="374" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="71v-ja-6ce"/>
+                                    <constraint firstAttribute="width" constant="374" id="FXb-Nz-2d4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estimated wait (min)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pAL-bm-08p">
+                                <rect key="frame" x="20" y="161" width="374" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="374" id="G0h-AK-cLu"/>
+                                    <constraint firstAttribute="height" constant="24" id="JnO-Ci-adF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" red="0.17888793759999999" green="0.18065910530000001" blue="0.18065910530000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ig-Ah-kP4">
+                                <rect key="frame" x="20" y="210" width="374" height="185"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="374" id="01A-zR-XKg"/>
+                                    <constraint firstAttribute="height" constant="185" id="EUL-BG-elu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="200"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_top_left" translatesAutoresizingMaskIntoConstraints="NO" id="1PA-uf-mZg">
+                                <rect key="frame" x="147" y="472" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="Xc9-q8-Wha"/>
+                                    <constraint firstAttribute="width" constant="120" id="jBr-93-ZC0"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Did you know? An adult male duck is called a drake." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7rn-dK-vr2">
+                                <rect key="frame" x="20" y="629" width="374" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="374" id="PEr-0v-ntg"/>
+                                    <constraint firstAttribute="height" constant="42" id="TuZ-cr-X4K"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="1PA-uf-mZg" firstAttribute="centerX" secondItem="a42-lx-ONp" secondAttribute="centerX" id="4XN-cH-jPQ"/>
+                            <constraint firstItem="1ig-Ah-kP4" firstAttribute="top" secondItem="pAL-bm-08p" secondAttribute="bottom" constant="25" id="6LF-nx-37u"/>
+                            <constraint firstItem="MW6-Ff-lau" firstAttribute="top" secondItem="ZvY-PJ-L1T" secondAttribute="top" constant="21" id="Eip-f6-uxX"/>
+                            <constraint firstItem="1PA-uf-mZg" firstAttribute="top" secondItem="1ig-Ah-kP4" secondAttribute="bottom" constant="77" id="LJx-hJ-smi"/>
+                            <constraint firstItem="1ig-Ah-kP4" firstAttribute="centerX" secondItem="a42-lx-ONp" secondAttribute="centerX" id="Rmo-yx-Td7"/>
+                            <constraint firstItem="MW6-Ff-lau" firstAttribute="centerX" secondItem="a42-lx-ONp" secondAttribute="centerX" id="jg7-QR-rzh"/>
+                            <constraint firstItem="7rn-dK-vr2" firstAttribute="top" secondItem="1PA-uf-mZg" secondAttribute="bottom" constant="37" id="kwV-AH-G56"/>
+                            <constraint firstItem="7rn-dK-vr2" firstAttribute="centerX" secondItem="a42-lx-ONp" secondAttribute="centerX" id="tbN-3s-h15"/>
+                            <constraint firstItem="pAL-bm-08p" firstAttribute="top" secondItem="MW6-Ff-lau" secondAttribute="bottom" constant="34" id="vgg-tp-Hd6"/>
+                            <constraint firstItem="pAL-bm-08p" firstAttribute="centerX" secondItem="a42-lx-ONp" secondAttribute="centerX" id="ysm-cf-h7e"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ZvY-PJ-L1T"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Pending Approval" id="yWF-aT-IWj">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="Xxr-3u-pee"/>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="3YN-vh-F66" kind="show" identifier="RequestAcceptedSegue" id="6vl-sW-g5s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hQK-jn-o26" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3137.68115942029" y="30.978260869565219"/>
+        </scene>
+        <!--Request Accepted-->
+        <scene sceneID="SH7-OC-JZw">
+            <objects>
+                <viewController id="3YN-vh-F66" customClass="RequestAcceptedViewController" customModule="DocDocGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Gqh-3c-zbb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your request has been accepted by:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NY3-JE-7KX">
+                                <rect key="frame" x="20" y="85" width="374" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="374" id="pmj-Jz-GWP"/>
+                                    <constraint firstAttribute="height" constant="42" id="sn1-JR-bPK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dr. Fabian" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3p-V6-t0d">
+                                <rect key="frame" x="20" y="227" width="374" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="374" id="WBR-5x-E7c"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="42" id="f6z-ux-H2l"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <color key="textColor" red="0.17888793759999999" green="0.18065910530000001" blue="0.18065910530000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profIcon" translatesAutoresizingMaskIntoConstraints="NO" id="EZl-6v-Wk6">
+                                <rect key="frame" x="139" y="277" width="136" height="134"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="136" id="JQU-AY-XMO"/>
+                                    <constraint firstAttribute="height" constant="134" id="dg6-or-dXE"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LGc-ZK-NSU">
+                                <rect key="frame" x="93" y="433" width="228" height="72"/>
+                                <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="72" id="6Zd-s1-InJ"/>
+                                    <constraint firstAttribute="width" constant="228" id="LSE-eF-VQW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="View Profile">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="tappedViewProfileBtn:" destination="3YN-vh-F66" eventType="touchUpInside" id="Igm-jC-lnz"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8 minutes away" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gHf-sc-4Ef">
+                                <rect key="frame" x="20" y="610" width="374" height="106"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="374" id="dZ2-hm-ec9"/>
+                                    <constraint firstAttribute="height" constant="106" id="m74-eK-OG8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="NY3-JE-7KX" firstAttribute="top" secondItem="S2W-C2-fdy" secondAttribute="top" constant="21" id="1xj-JH-fQd"/>
+                            <constraint firstItem="LGc-ZK-NSU" firstAttribute="top" secondItem="EZl-6v-Wk6" secondAttribute="bottom" constant="22" id="5m1-8l-5tB"/>
+                            <constraint firstItem="gHf-sc-4Ef" firstAttribute="centerX" secondItem="Gqh-3c-zbb" secondAttribute="centerX" id="Hjz-PF-QaX"/>
+                            <constraint firstItem="H3p-V6-t0d" firstAttribute="top" secondItem="NY3-JE-7KX" secondAttribute="bottom" constant="100" id="HlB-Ug-961"/>
+                            <constraint firstItem="H3p-V6-t0d" firstAttribute="centerX" secondItem="Gqh-3c-zbb" secondAttribute="centerX" id="JHn-Y9-lHz"/>
+                            <constraint firstItem="NY3-JE-7KX" firstAttribute="centerX" secondItem="Gqh-3c-zbb" secondAttribute="centerX" id="Jgi-Uw-MJP"/>
+                            <constraint firstItem="EZl-6v-Wk6" firstAttribute="top" secondItem="H3p-V6-t0d" secondAttribute="bottom" constant="8" id="Nmc-r5-27w"/>
+                            <constraint firstItem="LGc-ZK-NSU" firstAttribute="centerX" secondItem="Gqh-3c-zbb" secondAttribute="centerX" id="Xut-Bw-BDQ"/>
+                            <constraint firstItem="EZl-6v-Wk6" firstAttribute="centerX" secondItem="Gqh-3c-zbb" secondAttribute="centerX" id="bPg-Wm-HYY"/>
+                            <constraint firstItem="gHf-sc-4Ef" firstAttribute="top" secondItem="LGc-ZK-NSU" secondAttribute="bottom" constant="105" id="hd3-ui-yHO"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="S2W-C2-fdy"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Request Accepted" id="Utt-5X-T2s">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="3yj-2O-5TE"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="viewProfileBtn" destination="LGc-ZK-NSU" id="0Zo-JU-w72"/>
+                        <segue destination="Sct-OV-Yd3" kind="show" identifier="ViewProfileSegue" id="pPQ-3U-PIy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gfd-Rm-AbH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4059.420289855073" y="30.978260869565219"/>
+        </scene>
+        <!--View Profile-->
+        <scene sceneID="Qx7-PH-Y6K">
+            <objects>
+                <viewController id="Sct-OV-Yd3" customClass="ViewProfileViewController" customModule="DocDocGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TN2-VR-Jby">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="Q9d-kV-tfW"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="View Profile" id="fHI-jN-qXl"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bHX-P6-3AC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5039" y="29"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YUJ-Hk-QRJ">
@@ -504,4 +691,8 @@
             <point key="canvasLocation" x="30.399999999999999" y="31.484257871064472"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logo_top_left" width="120" height="120"/>
+        <image name="profIcon" width="128" height="128"/>
+    </resources>
 </document>

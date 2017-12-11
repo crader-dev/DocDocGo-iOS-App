@@ -23,10 +23,14 @@ class ReqSummaryViewController: UIViewController {
     var namePassed = String()
     var addressPassed = String()
     var painLevelPassed = String()
+    var longitudePassed = String()
+    var latitudePassed = String()
+    var waitTimeToPass = String()
+    var requestIDToPass = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // DRAW BUTTON BORDERS
         okBtn.layer.cornerRadius = 10
         cancelBtn.layer.cornerRadius = 10
@@ -36,15 +40,78 @@ class ReqSummaryViewController: UIViewController {
         addressLbl.text = addressPassed
         painSeverityLbl.text = painLevelPassed
         descriptionTextView.text = descriptionPassed
-        
-        
-        print(painLevelPassed)
     }
 
     @IBAction func tappedOKBtn(_ sender: UIButton) {
-        self.showAlertMessage(messageHeader: "Request Sent!",
-                              messageBody: "Please standby while your request is approved and accepted.")
+        
+        waitTimeToPass = waitTimeLbl.text!
+        
+        let params =  [
+            "description": descriptionTextView.text!,
+            "pain_severity": sliderValPassed,
+            "latitude": latitudePassed,
+            "longitude": longitudePassed
+        ] as [String : Any]
+
+        guard let url = URL(string: "http://34.199.76.53/api/v0/requests/") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: params, options: []) else { return }
+        request.httpBody = httpBody
+//
+        var tempIDHolder: Int = 0
+        var jsonDataHolder = Dictionary<String, AnyObject>()
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            
+            if let data = data {
+                //                print(data)
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                    let dictionaryOfReturnedJsonData = json as! Dictionary<String, AnyObject>
+                    
+                    jsonDataHolder = dictionaryOfReturnedJsonData
+//                    let currStatus: String = jsonDataHolder["status"] as! String    //  get status of request
+                    let currId: Int = jsonDataHolder["id"] as! Int                  //  get request id
+                    
+//                    print("CURR STATUS: \(currStatus)")
+//                    print("CURR ID: \(currId)")
+                    tempIDHolder = currId;
+//                    print("PRINTING SELF.: \(tempIDHolder)")
+                    self.requestIDToPass = tempIDHolder
+//                    print("PRINTING requestIDToPass.: \(self.requestIDToPass)")
+                } catch {
+                    print(error)
+                }
+                
+            }
+        }.resume()
+        
+//        var gameTimer: Timer!
+//        gameTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(doNothing), userInfo: nil, repeats: true)
+
+        while ( requestIDToPass == 0 ) {}
+        
+        requestIDToPass = tempIDHolder
+//        print("PRINTING requestIDToPass.: \(requestIDToPass)")
+        
+        
+//        doNothing()
+        performSegue(withIdentifier: "PendingApprovalSegue", sender: self)
+        //        self.showAlertMessage(messageHeader: "Request Sent!",
+        //                              messageBody: "Please standby while your request is reviewed.")
     }
+    
+    @objc func doNothing() {
+//        performSegue(withIdentifier: "PendingApprovalSegue", sender: self)
+    }
+    
     
     /*
      -----------------------------
@@ -72,6 +139,22 @@ class ReqSummaryViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    /*
+     -------------------------
+     MARK: - Prepare for Segue
+     -------------------------
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
+        
+        if segue.identifier == "PendingApprovalSegue" {
+            let pendingApprovalViewController: PendingApprovalViewController = segue.destination as! PendingApprovalViewController
+            
+            // Pass the following data to downstream view controller
+            pendingApprovalViewController.waitTimePassed = waitTimeToPass
+//            print("IN THE SEGUE: \(requestIDToPass)")
+            pendingApprovalViewController.requestIDPassed = requestIDToPass
+        }
+    }
     
 }

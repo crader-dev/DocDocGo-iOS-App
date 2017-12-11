@@ -14,6 +14,10 @@
 		443FAC7E1FD4AF40002628A3 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443FAC7D1FD4AF40002628A3 /* InitialViewController.swift */; };
 		443FAC801FD4B2E4002628A3 /* TextReqViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443FAC7F1FD4B2E4002628A3 /* TextReqViewController.swift */; };
 		443FAC821FD4E883002628A3 /* ReqSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443FAC811FD4E883002628A3 /* ReqSummaryViewController.swift */; };
+		44CEF7971FDE204000FCA42A /* PendingApprovalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CEF7961FDE204000FCA42A /* PendingApprovalViewController.swift */; };
+		44CEF7991FDE28B500FCA42A /* RequestAcceptedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CEF7981FDE28B500FCA42A /* RequestAcceptedViewController.swift */; };
+		44CEF79B1FDE2B3C00FCA42A /* ViewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CEF79A1FDE2B3C00FCA42A /* ViewProfileViewController.swift */; };
+		44CEF79E1FDE51AA00FCA42A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44CEF79D1FDE51AA00FCA42A /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		443FAC7D1FD4AF40002628A3 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 		443FAC7F1FD4B2E4002628A3 /* TextReqViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextReqViewController.swift; sourceTree = "<group>"; };
 		443FAC811FD4E883002628A3 /* ReqSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReqSummaryViewController.swift; sourceTree = "<group>"; };
+		44CEF7961FDE204000FCA42A /* PendingApprovalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingApprovalViewController.swift; sourceTree = "<group>"; };
+		44CEF7981FDE28B500FCA42A /* RequestAcceptedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAcceptedViewController.swift; sourceTree = "<group>"; };
+		44CEF79A1FDE2B3C00FCA42A /* ViewProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProfileViewController.swift; sourceTree = "<group>"; };
+		44CEF79D1FDE51AA00FCA42A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44CEF79E1FDE51AA00FCA42A /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +53,7 @@
 			children = (
 				443FAC691FD4A6BD002628A3 /* DocDocGo */,
 				443FAC681FD4A6BD002628A3 /* Products */,
+				44CEF79C1FDE51AA00FCA42A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,8 +84,19 @@
 				443FAC7D1FD4AF40002628A3 /* InitialViewController.swift */,
 				443FAC7F1FD4B2E4002628A3 /* TextReqViewController.swift */,
 				443FAC811FD4E883002628A3 /* ReqSummaryViewController.swift */,
+				44CEF7961FDE204000FCA42A /* PendingApprovalViewController.swift */,
+				44CEF7981FDE28B500FCA42A /* RequestAcceptedViewController.swift */,
+				44CEF79A1FDE2B3C00FCA42A /* ViewProfileViewController.swift */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		44CEF79C1FDE51AA00FCA42A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				44CEF79D1FDE51AA00FCA42A /* CoreLocation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,9 +172,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				443FAC6B1FD4A6BD002628A3 /* AppDelegate.swift in Sources */,
+				44CEF7991FDE28B500FCA42A /* RequestAcceptedViewController.swift in Sources */,
 				443FAC801FD4B2E4002628A3 /* TextReqViewController.swift in Sources */,
 				443FAC821FD4E883002628A3 /* ReqSummaryViewController.swift in Sources */,
+				44CEF79B1FDE2B3C00FCA42A /* ViewProfileViewController.swift in Sources */,
 				443FAC7E1FD4AF40002628A3 /* InitialViewController.swift in Sources */,
+				44CEF7971FDE204000FCA42A /* PendingApprovalViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

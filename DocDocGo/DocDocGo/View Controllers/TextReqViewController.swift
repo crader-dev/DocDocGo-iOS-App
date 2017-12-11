@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreLocation
+import MapKit
 
 class TextReqViewController: UIViewController {
 
@@ -22,12 +24,16 @@ class TextReqViewController: UIViewController {
     var nameToPass = String()
     var painLevelToPass = String()
     var descriptionToPass = String()
+    var sliderValToPass = Int()
+    var latitudeToPass = String()
+    var longitudeToPass = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // SLIDER STARTS IN THE MIDDLE (5)
-        painSlider.value = 5.0;
+        painSlider.value = 5.0
+        sliderValToPass = 5
         
         // DRAW BUTTON BORDERS
         submitReqBtn.layer.cornerRadius = 10
@@ -54,12 +60,65 @@ class TextReqViewController: UIViewController {
         addressToPass = addressTextField.text!
         descriptionToPass = descriptionTextView.text
         painLevelToPass = painLbl.text!
+        
+        //******************
+        // GET LATITUDE AND LONGITUDE WITH GEOCODER
+        //******************
+        
+        // Instantiate a forward geocoder object
+        let forwardGeocoder = CLGeocoder()
+        
+        /*
+         Ask the forward geocoder object to
+         (a) execute its geocodeAddressString method in a new thread *** asynchronously ***
+         (b) determine the geolocation (latitude, longitude) of the given address, and
+         (c) give the results to the completion handler function geocoderCompletionHandler running under the main thread.
+         */
+        forwardGeocoder.geocodeAddressString(addressToPass) { (placemarks, error) in
+            self.geocoderCompletionHandler(withPlacemarks: placemarks, error: error)
+        }
+        
+        // statments after this may not process becauses of asynchronous processing, so put the perform segue in teh
+        // completion handler
+    }
+    
+    /*
+     ---------------------------------
+     MARK: - Process Geocoding Results
+     ---------------------------------
+     */
+    private func geocoderCompletionHandler(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
+        
+        if let errorOccurred = error {
+            self.showAlertMessage(messageHeader: "Forward Geocoding Unsuccessful!",
+                                  messageBody: "Forward Geocoding of the Given Address Failed: (\(errorOccurred))")
+            return
+        }
+        
+        var geolocation: CLLocation?
+        
+        if let placemarks = placemarks, placemarks.count > 0 {
+            geolocation = placemarks.first?.location
+        }
+        
+        if let locationObtained = geolocation {
+            
+            self.latitudeToPass = String(locationObtained.coordinate.latitude)
+            self.longitudeToPass = String(locationObtained.coordinate.longitude)
+            
+        } else {
+            self.showAlertMessage(messageHeader: "Location Match Failed!",
+                                  messageBody: "Unable to Find a Matching Location!")
+            return
+        }
+        
         performSegue(withIdentifier: "SummarySegue", sender: self)
     }
     
     
     @IBAction func sliderChanged(_ sender: UISlider) {
         painLbl.text = String(Int(sender.value))
+        sliderValToPass = Int(sender.value)
     }
     
     override func didReceiveMemoryWarning() {
@@ -105,6 +164,9 @@ class TextReqViewController: UIViewController {
             reqSummaryViewController.addressPassed = addressToPass
             reqSummaryViewController.namePassed = nameToPass
             reqSummaryViewController.painLevelPassed = painLevelToPass
+            reqSummaryViewController.sliderValPassed = sliderValToPass
+            reqSummaryViewController.longitudePassed = longitudeToPass
+            reqSummaryViewController.latitudePassed = latitudeToPass
         }
     }
 }
