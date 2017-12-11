@@ -69,7 +69,7 @@ class ReqSummaryViewController: UIViewController {
             }
             
             if let data = data {
-                //                print(data)
+                                print(data)
                 
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
@@ -80,6 +80,7 @@ class ReqSummaryViewController: UIViewController {
 //                    let currStatus: String = jsonDataHolder["status"] as! String    //  get status of request
                     let currId: Int = jsonDataHolder["id"] as! Int                  //  get request id
                     
+                    print(jsonDataHolder)
 //                    print("CURR STATUS: \(currStatus)")
 //                    print("CURR ID: \(currId)")
                     tempIDHolder = currId;

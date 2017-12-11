@@ -356,7 +356,7 @@
                                             </textView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hGT-ei-gDS">
                                                 <rect key="frame" x="20" y="611" width="181" height="49"/>
-                                                <color key="backgroundColor" red="0.83155536167512689" green="0.067017702977212129" blue="0.012569487952906005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" red="0.83076989650726318" green="0.068751625716686249" blue="0.013697488233447075" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="49" id="g5j-if-af0"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="181" id="nr6-lH-VXX"/>
