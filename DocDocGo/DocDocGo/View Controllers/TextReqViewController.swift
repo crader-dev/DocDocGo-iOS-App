@@ -106,6 +106,9 @@ class TextReqViewController: UIViewController {
             self.latitudeToPass = String(locationObtained.coordinate.latitude)
             self.longitudeToPass = String(locationObtained.coordinate.longitude)
             
+            print(self.latitudeToPass)
+            print(self.longitudeToPass)
+            
         } else {
             self.showAlertMessage(messageHeader: "Location Match Failed!",
                                   messageBody: "Unable to Find a Matching Location!")
