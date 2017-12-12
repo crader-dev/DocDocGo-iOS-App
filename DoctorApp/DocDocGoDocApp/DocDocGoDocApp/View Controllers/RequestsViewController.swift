@@ -120,8 +120,6 @@ class RequestsViewController: UIViewController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         guard let httpBody = try? JSONSerialization.data(withJSONObject: params, options: []) else { return }
         request.httpBody = httpBody
-        //        //
-        //        var tempIDHolder: Int = 0
         var jsonDataHolder = Dictionary<String, AnyObject>()
         let session = URLSession.shared
         session.dataTask(with: request) { (data, response, error) in
@@ -136,31 +134,55 @@ class RequestsViewController: UIViewController {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
                     print(json)
                     let dictionaryOfReturnedJsonData = json as! Dictionary<String, AnyObject>
-                    
                     jsonDataHolder = dictionaryOfReturnedJsonData
-                    //                    let currStatus: String = jsonDataHolder["status"] as! String    //  get status of request
-                    //                    let currId: Int = jsonDataHolder["id"] as! Int                  //  get request id
-                    //
                     print(jsonDataHolder)
-                    //                    //                    print("CURR STATUS: \(currStatus)")
-                    //                    //                    print("CURR ID: \(currId)")
-                    //                    tempIDHolder = currId;
-                    //                    //                    print("PRINTING SELF.: \(tempIDHolder)")
-                    //                    self.requestIDToPass = tempIDHolder
-                    //                    //                    print("PRINTING requestIDToPass.: \(self.requestIDToPass)")
                 } catch {
                     print(error)
                 }
                 
             }
-            }.resume()
+        }.resume()
     }
     
     @IBAction func denyBtnTapped(_ sender: UIButton) {
+        let params =  [
+            "status": "RFUS"
+            ] as [String : Any]
+        
+        guard let url = URL(string: "http://34.199.76.53/api/v0/requests/\(requestID)") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: params, options: []) else { return }
+        request.httpBody = httpBody
+        var jsonDataHolder = Dictionary<String, AnyObject>()
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            
+            if let response = response {
+                print(response)
+            }
+            
+            if let data = data {
+                print(data)
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                    let dictionaryOfReturnedJsonData = json as! Dictionary<String, AnyObject>
+                    jsonDataHolder = dictionaryOfReturnedJsonData
+                    print(jsonDataHolder)
+                } catch {
+                    print(error)
+                }
+            }
+        }.resume()
+        
+//        self.showAlertMessage(messageHeader: "Request Denied",
+//                                  messageBody: "You have denied this request.")
     }
     
     @IBAction func unwindFromCompleteAppt(_ sender: UIStoryboardSegue) {
-//        self.viewDidLoad()
         self.requestFound = false
         self.waiter = 0
         
@@ -172,6 +194,17 @@ class RequestsViewController: UIViewController {
         
         painLevelLbl.text = "0"
         descriptionTextView.text = "You have no requests!"
+    }
+    
+    /*
+     -----------------------------
+     MARK: - Display Alert Message
+     -----------------------------
+     */
+    func showAlertMessage(messageHeader header: String, messageBody body: String) {
+        let alertController = UIAlertController(title: header, message: body, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -216,9 +249,7 @@ class RequestsViewController: UIViewController {
         
         if segue.identifier == "CompleteApptSegue" {
             let completeApptViewController: CompleteApptViewController = segue.destination as! CompleteApptViewController
-            
             completeApptViewController.requestIDPassed = requestID
-            
         }
     }
     
