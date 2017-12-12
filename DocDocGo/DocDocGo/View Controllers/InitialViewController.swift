@@ -11,14 +11,12 @@ import UIKit
 class InitialViewController: UIViewController {
 
     @IBOutlet var textReqBtn: UIButton!
-    @IBOutlet var speechReqBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // DRAW BUTTON BORDERS
         textReqBtn.layer.cornerRadius = 10
-        speechReqBtn.layer.cornerRadius = 10
     }
 
     @IBAction func tappedTextReqBtn(_ sender: UIButton) {
@@ -48,15 +46,7 @@ class InitialViewController: UIViewController {
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
         
-        if segue.identifier == "TextReqSegue" {
-            
-            // Obtain the object reference of the destination (downstream) view controller
-            let _: TextReqViewController = segue.destination as! TextReqViewController
-            
-            // Pass the following data to downstream view controller VTPlaceOnMapViewController
-            //            textReqViewController.mapTypePassed = mapTypeToPass
-            //            textReqViewController.selectedBuildingNamePassed = selectedBuildingNamePassed
-        }
+        if segue.identifier == "TextReqSegue" {}
     }
 
 }

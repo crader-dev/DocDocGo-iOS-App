@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class TextReqViewController: UIViewController {
+class TextReqViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var painLbl: UILabel!
@@ -19,7 +19,9 @@ class TextReqViewController: UIViewController {
     @IBOutlet var submitReqBtn: UIButton!
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var addressTextField: UITextField!
+    @IBOutlet var autoDetectBtn: UIButton!
     
+    let locationManager = CLLocationManager()
     var addressToPass = String()
     var nameToPass = String()
     var painLevelToPass = String()
@@ -27,6 +29,9 @@ class TextReqViewController: UIViewController {
     var sliderValToPass = Int()
     var latitudeToPass = String()
     var longitudeToPass = String()
+    
+    var detectedLatitude = String()
+    var detectedLongitude = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,25 +42,35 @@ class TextReqViewController: UIViewController {
         
         // DRAW BUTTON BORDERS
         submitReqBtn.layer.cornerRadius = 10
+        autoDetectBtn.layer.cornerRadius = 10
         descriptionTextView.layer.cornerRadius = 5
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
     }
 
     @IBAction func tappedSubmitReqBtn(_ sender: UIButton) {
-//        if ( nameTextField.text == "" ) {
-//            self.showAlertMessage(messageHeader: "No Name Specified!",
-//                                  messageBody: "Please enter your name!")
-//        }
-//
-//        if ( addressTextField.text == "" ) {
-//            self.showAlertMessage(messageHeader: "No Address Specified!",
-//                                  messageBody: "Please enter your current address!")
-//        }
-//
-//        if ( descriptionTextView.text == "" ) {
-//            self.showAlertMessage(messageHeader: "No Description Provided!",
-//                                  messageBody: "Please enter a short description of your emergency!")
-//        }
-//
+        if ( nameTextField.text == "" ) {
+            self.showAlertMessage(messageHeader: "No Name Specified!",
+                                  messageBody: "Please enter your name!")
+        }
+
+        if ( addressTextField.text == "" ) {
+            self.showAlertMessage(messageHeader: "No Address Specified!",
+                                  messageBody: "Please enter your current address!")
+        }
+
+        if ( descriptionTextView.text == "" ) {
+            self.showAlertMessage(messageHeader: "No Description Provided!",
+                                  messageBody: "Please enter a short description of your emergency!")
+        }
+
         nameToPass = nameTextField.text!
         addressToPass = addressTextField.text!
         descriptionToPass = descriptionTextView.text
@@ -67,19 +82,23 @@ class TextReqViewController: UIViewController {
         
         // Instantiate a forward geocoder object
         let forwardGeocoder = CLGeocoder()
-        
-        /*
-         Ask the forward geocoder object to
-         (a) execute its geocodeAddressString method in a new thread *** asynchronously ***
-         (b) determine the geolocation (latitude, longitude) of the given address, and
-         (c) give the results to the completion handler function geocoderCompletionHandler running under the main thread.
-         */
         forwardGeocoder.geocodeAddressString(addressToPass) { (placemarks, error) in
             self.geocoderCompletionHandler(withPlacemarks: placemarks, error: error)
         }
-        
         // statments after this may not process becauses of asynchronous processing, so put the perform segue in teh
         // completion handler
+    }
+    
+    @IBAction func autoDetectBtnTapped(_ sender: UIButton) {
+        addressTextField.text = detectedLatitude + ", " + detectedLongitude
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        
+        detectedLatitude = String(format: "%.6f", locValue.latitude)
+        detectedLongitude = String(format: "%.6f", locValue.longitude)
     }
     
     /*
@@ -102,13 +121,8 @@ class TextReqViewController: UIViewController {
         }
         
         if let locationObtained = geolocation {
-            
             self.latitudeToPass = String(locationObtained.coordinate.latitude)
             self.longitudeToPass = String(locationObtained.coordinate.longitude)
-            
-            print(self.latitudeToPass)
-            print(self.longitudeToPass)
-            
         } else {
             self.showAlertMessage(messageHeader: "Location Match Failed!",
                                   messageBody: "Unable to Find a Matching Location!")
@@ -139,6 +153,9 @@ class TextReqViewController: UIViewController {
         let alertController = UIAlertController(title: header, message: body, preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func unwindCancelSegue(_ sender: UIStoryboardSegue) {
     }
     
     

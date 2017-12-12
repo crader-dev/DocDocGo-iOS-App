@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 class RequestsViewController: UIViewController {
-
+    
     @IBOutlet var painLevelLbl: UILabel!
     @IBOutlet var descriptionTextView: UITextView!
     @IBOutlet var acceptBtn: UIButton!
@@ -26,7 +26,7 @@ class RequestsViewController: UIViewController {
     var latitude: CLLocationDegrees = 00.0
     var longitude: CLLocationDegrees = 00.0
     var requestID = "0"
-    
+    var requestFound:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ class RequestsViewController: UIViewController {
         acceptBtn.isEnabled = false
         denyBtn.isEnabled = false
         
-        gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(pollAPI), userInfo: nil, repeats: false)
+        gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(pollAPI), userInfo: nil, repeats: true)
     }
     
     @objc func pollAPI() {
@@ -52,33 +52,37 @@ class RequestsViewController: UIViewController {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
                     let dictionaryOfReturnedJsonData = json as! [Dictionary<String, AnyObject>]
-                    let request_dict = dictionaryOfReturnedJsonData[0]
-                    
-                    while ( self.waiter == 0) {
-                        if (request_dict["pain_severity"] == nil) {
-                            self.waiter = 0
-                        } else {
-                            self.waiter = request_dict["pain_severity"] as! Int
-                            self.descHolder = request_dict["description"] as! String
-//                            self.latitude = CLLocationDegrees((request_dict["latitude"] as! NSString).floatValue)
-//                            self.longitude = CLLocationDegrees((request_dict["longitude"] as! NSString).floatValue)
-                            
-                            self.ans_dict = request_dict
+                    if ( dictionaryOfReturnedJsonData.isEmpty ) {
+                        print("ISEMPTY")
+                    } else {
+                        self.requestFound = true
+                        let request_dict = dictionaryOfReturnedJsonData[0]
+                        
+                        while ( self.waiter == 0) {
+                            if (request_dict["pain_severity"] == nil) {
+                                self.waiter = 0
+                            } else {
+                                self.waiter = request_dict["pain_severity"] as! Int
+                                self.descHolder = request_dict["description"] as! String
+                                self.ans_dict = request_dict
+                            }
                         }
+                        
+                        self.painHolder = self.waiter
+                        print(json)
                     }
-                    
-                    self.painHolder = self.waiter
-                    print(json)
                 } catch {
                     print(err!)
                 }
                 
             }
-        }.resume()
+            }.resume()
         
-        // DELAY UNTIL JSON IS PARSED, THEN POPULATE VIEWS
-        while ( self.painHolder == 0 ) {}
-        setLabels()
+        if (requestFound) {
+            // DELAY UNTIL JSON IS PARSED, THEN POPULATE VIEWS
+            while ( self.painHolder == 0 ) {}
+            setLabels()
+        }
     }
     
     func setLabels() {
@@ -116,43 +120,58 @@ class RequestsViewController: UIViewController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         guard let httpBody = try? JSONSerialization.data(withJSONObject: params, options: []) else { return }
         request.httpBody = httpBody
-//        //
-//        var tempIDHolder: Int = 0
+        //        //
+        //        var tempIDHolder: Int = 0
         var jsonDataHolder = Dictionary<String, AnyObject>()
         let session = URLSession.shared
         session.dataTask(with: request) { (data, response, error) in
             if let response = response {
                 print(response)
             }
-
+            
             if let data = data {
                 print(data)
-
+                
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
                     print(json)
                     let dictionaryOfReturnedJsonData = json as! Dictionary<String, AnyObject>
-
+                    
                     jsonDataHolder = dictionaryOfReturnedJsonData
                     //                    let currStatus: String = jsonDataHolder["status"] as! String    //  get status of request
-//                    let currId: Int = jsonDataHolder["id"] as! Int                  //  get request id
-//
+                    //                    let currId: Int = jsonDataHolder["id"] as! Int                  //  get request id
+                    //
                     print(jsonDataHolder)
-//                    //                    print("CURR STATUS: \(currStatus)")
-//                    //                    print("CURR ID: \(currId)")
-//                    tempIDHolder = currId;
-//                    //                    print("PRINTING SELF.: \(tempIDHolder)")
-//                    self.requestIDToPass = tempIDHolder
-//                    //                    print("PRINTING requestIDToPass.: \(self.requestIDToPass)")
+                    //                    //                    print("CURR STATUS: \(currStatus)")
+                    //                    //                    print("CURR ID: \(currId)")
+                    //                    tempIDHolder = currId;
+                    //                    //                    print("PRINTING SELF.: \(tempIDHolder)")
+                    //                    self.requestIDToPass = tempIDHolder
+                    //                    //                    print("PRINTING requestIDToPass.: \(self.requestIDToPass)")
                 } catch {
                     print(error)
                 }
-
+                
             }
-        }.resume()
+            }.resume()
     }
     
     @IBAction func denyBtnTapped(_ sender: UIButton) {
+    }
+    
+    @IBAction func unwindFromCompleteAppt(_ sender: UIStoryboardSegue) {
+//        self.viewDidLoad()
+        self.requestFound = false
+        self.waiter = 0
+        
+    }
+    
+    func resetLabels() {
+        acceptBtn.isEnabled = false
+        denyBtn.isEnabled = false
+        
+        painLevelLbl.text = "0"
+        descriptionTextView.text = "You have no requests!"
     }
     
     override func didReceiveMemoryWarning() {
@@ -177,17 +196,17 @@ class RequestsViewController: UIViewController {
         mapItem.name = "Client Location"
         mapItem.openInMaps(launchOptions: options)
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
     /*
      -------------------------
      MARK: - Prepare for Segue
@@ -199,8 +218,9 @@ class RequestsViewController: UIViewController {
             let completeApptViewController: CompleteApptViewController = segue.destination as! CompleteApptViewController
             
             completeApptViewController.requestIDPassed = requestID
-
+            
         }
     }
     
 }
+

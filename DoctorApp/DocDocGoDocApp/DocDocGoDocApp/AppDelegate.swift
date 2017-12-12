@@ -7,15 +7,22 @@
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var locationManager = CLLocationManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Option 1: Request user's authorization while the app is being used.
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        // Option 2: Request user's authorization even when the app is not being used.
+        // self.locationManager.requestAlwaysAuthorization()
+        
         return true
     }
 

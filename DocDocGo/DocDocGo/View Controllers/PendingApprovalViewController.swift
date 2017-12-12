@@ -10,6 +10,9 @@ import UIKit
 
 class PendingApprovalViewController: UIViewController {
 
+    @IBOutlet var duckImgView: UIImageView!
+    @IBOutlet var rotateBtn: UIButton!
+    
     var waitTimePassed = String()
     var gotApproval = Int()
     var gameTimer: Timer!
@@ -18,9 +21,9 @@ class PendingApprovalViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        rotateBtn.layer.cornerRadius = 10
         
         gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(pollAPI), userInfo: nil, repeats: true)
-        
     }
 
     @objc func pollAPI() {
@@ -32,50 +35,49 @@ class PendingApprovalViewController: UIViewController {
         }
         else if ( requestStatus == "DENY" ) {
             print("DENIED")
-            //            performSegue(withIdentifier: "RequestAcceptedSegue", sender: self)
-            //            gameTimer.invalidate()
+            performSegue(withIdentifier: "RequestDeniedSegue", sender: self)
+            gameTimer.invalidate()
         }
         else if ( requestStatus == "TOUT" ) {
             print("REQUEST TIMED OUT")
-            //            performSegue(withIdentifier: "RequestAcceptedSegue", sender: self)
-            // alert here saying no doc found
             gameTimer.invalidate()
-        }
-
-        
-        
-        // POLL API AND GET STATUS
-        var jsonDataHolder = Dictionary<String, AnyObject>()
-        guard let url = URL(string: "http://34.199.76.53/api/v0/requests/\(requestIDPassed)") else { return }
-        let session = URLSession.shared
-        session.dataTask(with: url) { (data, response, err) in
-        
-            if let response = response {
-//                print(response)
-            }
+        } else {
             
-            if let data = data {
+            // POLL API AND GET STATUS
+            var jsonDataHolder = Dictionary<String, AnyObject>()
+            guard let url = URL(string: "http://34.199.76.53/api/v0/requests/\(requestIDPassed)") else { return }
+            let session = URLSession.shared
+            session.dataTask(with: url) { (data, response, err) in
+            
+//                if let response = response {
+//                print(response)
+//                }
+                
+                if let data = data {
 //                print(data)
-                
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary
-                    print(json!)
-                    let dictionaryOfReturnedJsonData = json as! Dictionary<String, AnyObject>
-                    jsonDataHolder = dictionaryOfReturnedJsonData
-                    guard let currStatus: String = jsonDataHolder["status"] as? String else {return}    //  get status of request
-                    guard let currId: Int = jsonDataHolder["id"] as? Int else {return}                  //  get request id
                     
-                    print("CURR STATUS: \(currStatus) FOR ID: \(currId) ---------")
-//                    print("CURR ID: \(currId)")
-                    self.requestStatus = currStatus
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary
+                        print(json!)
+                        let dictionaryOfReturnedJsonData = json as! Dictionary<String, AnyObject>
+                        jsonDataHolder = dictionaryOfReturnedJsonData
+                        guard let currStatus: String = jsonDataHolder["status"] as? String else {return}    //  get status of request
+//                        guard let currId: Int = jsonDataHolder["id"] as? Int else {return}                  //  get request id
+                        
+//                        print("CURR STATUS: \(currStatus) FOR ID: \(currId) ---------")
+                        self.requestStatus = currStatus
+                        
+                    } catch {
+                        print(err!)
+                    }
                     
-                } catch {
-                    print(err!)
                 }
-                
-            }
-        }.resume()
-        
+            }.resume()
+        }
+    }
+    
+    @IBAction func rotateBtnTapped(_ sender: UIButton) {
+        duckImgView.transform = duckImgView.transform.rotated(by: CGFloat(CGFloat.pi/2))
     }
     
     override func didReceiveMemoryWarning() {
@@ -101,14 +103,7 @@ class PendingApprovalViewController: UIViewController {
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
         
-        if segue.identifier == "RequestAcceptedSegue" {
-            let requestAcceptedViewController: RequestAcceptedViewController = segue.destination as! RequestAcceptedViewController
-//
-//            // Pass the following data to downstream view controller
-//            reqSummaryViewController.descriptionPassed = descriptionToPass
-//            reqSummaryViewController.addressPassed = addressToPass
-//            reqSummaryViewController.namePassed = nameToPass
-//            reqSummaryViewController.painLevelPassed = painLevelToPass
-        }
+        if segue.identifier == "RequestAcceptedSegue" {}
+        else if segue.identifier == "RequestDeniedSegue" {}
     }
 }

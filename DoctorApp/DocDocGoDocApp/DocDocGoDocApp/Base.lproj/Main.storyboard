@@ -196,7 +196,7 @@
                         <outlet property="denyBtn" destination="WDA-5Y-urP" id="85e-dl-Rju"/>
                         <outlet property="descriptionTextView" destination="AeD-YT-qEu" id="QVM-Mt-MYz"/>
                         <outlet property="painLevelLbl" destination="TI9-Nb-Pgt" id="lVo-9U-EQa"/>
-                        <segue destination="j8B-W0-Ik3" kind="show" identifier="CompleteApptSegue" id="SmR-ZU-WmS"/>
+                        <segue destination="j8B-W0-Ik3" kind="showDetail" identifier="CompleteApptSegue" action="showViewController:sender:" id="SmR-ZU-WmS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tAW-L9-xPK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -234,6 +234,7 @@
                                 </state>
                                 <connections>
                                     <action selector="completeApptTapped:" destination="j8B-W0-Ik3" eventType="touchUpInside" id="RGc-N3-e7J"/>
+                                    <segue destination="TTK-g1-3xL" kind="unwind" unwindAction="unwindFromCompleteAppt:" id="q7z-Vg-VDH"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -251,6 +252,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q94-u7-Enk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="TTK-g1-3xL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1701.5999999999999" y="624.73763118440786"/>
         </scene>

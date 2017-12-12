@@ -10,10 +10,12 @@ import UIKit
 
 class ViewProfileViewController: UIViewController {
 
+    @IBOutlet var docImgView: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        docImgView.layer.cornerRadius = 10
     }
 
     override func didReceiveMemoryWarning() {

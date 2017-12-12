@@ -59,7 +59,7 @@ class ReqSummaryViewController: UIViewController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         guard let httpBody = try? JSONSerialization.data(withJSONObject: params, options: []) else { return }
         request.httpBody = httpBody
-//
+        
         var tempIDHolder: Int = 0
         var jsonDataHolder = Dictionary<String, AnyObject>()
         let session = URLSession.shared
@@ -69,7 +69,7 @@ class ReqSummaryViewController: UIViewController {
             }
             
             if let data = data {
-                                print(data)
+                print(data)
                 
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
@@ -77,42 +77,23 @@ class ReqSummaryViewController: UIViewController {
                     let dictionaryOfReturnedJsonData = json as! Dictionary<String, AnyObject>
                     
                     jsonDataHolder = dictionaryOfReturnedJsonData
-//                    let currStatus: String = jsonDataHolder["status"] as! String    //  get status of request
                     let currId: Int = jsonDataHolder["id"] as! Int                  //  get request id
                     
                     print(jsonDataHolder)
-//                    print("CURR STATUS: \(currStatus)")
-//                    print("CURR ID: \(currId)")
                     tempIDHolder = currId;
-//                    print("PRINTING SELF.: \(tempIDHolder)")
                     self.requestIDToPass = tempIDHolder
-//                    print("PRINTING requestIDToPass.: \(self.requestIDToPass)")
                 } catch {
                     print(error)
                 }
-                
             }
         }.resume()
         
-//        var gameTimer: Timer!
-//        gameTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(doNothing), userInfo: nil, repeats: true)
-
+        //  DELAY WHILE DATA IS ACCESSED
         while ( requestIDToPass == 0 ) {}
-        
         requestIDToPass = tempIDHolder
-//        print("PRINTING requestIDToPass.: \(requestIDToPass)")
         
-        
-//        doNothing()
         performSegue(withIdentifier: "PendingApprovalSegue", sender: self)
-        //        self.showAlertMessage(messageHeader: "Request Sent!",
-        //                              messageBody: "Please standby while your request is reviewed.")
     }
-    
-    @objc func doNothing() {
-//        performSegue(withIdentifier: "PendingApprovalSegue", sender: self)
-    }
-    
     
     /*
      -----------------------------
@@ -150,10 +131,7 @@ class ReqSummaryViewController: UIViewController {
         
         if segue.identifier == "PendingApprovalSegue" {
             let pendingApprovalViewController: PendingApprovalViewController = segue.destination as! PendingApprovalViewController
-            
-            // Pass the following data to downstream view controller
             pendingApprovalViewController.waitTimePassed = waitTimeToPass
-//            print("IN THE SEGUE: \(requestIDToPass)")
             pendingApprovalViewController.requestIDPassed = requestIDToPass
         }
     }

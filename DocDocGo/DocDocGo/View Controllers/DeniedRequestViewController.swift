@@ -1,28 +1,21 @@
 //
-//  RequestAcceptedViewController.swift
+//  DeniedRequestViewController.swift
 //  DocDocGo
 //
-//  Created by Sunny Eltepu on 12/10/17.
+//  Created by Sunny Eltepu on 12/12/17.
 //  Copyright © 2017 Sainigam Eltepu. All rights reserved.
 //
 
 import UIKit
 
-class RequestAcceptedViewController: UIViewController {
+class DeniedRequestViewController: UIViewController {
 
-    @IBOutlet var viewProfileBtn: UIButton!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewProfileBtn.layer.cornerRadius = 10
+        // Do any additional setup after loading the view.
     }
 
-    @IBAction func tappedViewProfileBtn(_ sender: UIButton) {
-        performSegue(withIdentifier: "ViewProfileSegue", sender: self)
-
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -39,14 +32,4 @@ class RequestAcceptedViewController: UIViewController {
     }
     */
 
-    /*
-     -------------------------
-     MARK: - Prepare for Segue
-     -------------------------
-     */
-    override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
-        
-        if segue.identifier == "ViewProfileSegue" {}
-    }
-    
 }

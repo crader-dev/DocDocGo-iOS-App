@@ -9,7 +9,7 @@
 import UIKit
 
 class CompleteApptViewController: UIViewController {
-
+    
     var requestIDPassed = String()
     
     @IBOutlet var completeApptBtn: UIButton!
@@ -19,7 +19,7 @@ class CompleteApptViewController: UIViewController {
         
         completeApptBtn.layer.cornerRadius = 10
     }
-
+    
     @IBAction func completeApptTapped(_ sender: UIButton) {
         print("APPOINTMENT COMPLETE")
         let params =  [
@@ -55,23 +55,24 @@ class CompleteApptViewController: UIViewController {
                     print(error)
                 }
             }
-        }.resume()
+            }.resume()
     }
-
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
+
